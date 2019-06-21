@@ -31,8 +31,11 @@ public class Main extends Application {
 
 		DB db = DB.instance();
 		db.readDetails();
-		Details d = Details.get_instance();
-		System.out.println(d);
+		db.ReadTech();
+		System.out.println(DB.technologies);
 		launch(args);
+		System.out.println("hello world!");
+		db.WriteTech();
+		db.writeDetails();
 	}
 }

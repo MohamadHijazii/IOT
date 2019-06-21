@@ -117,21 +117,20 @@ public class Technology {
         sb.append(simplicity).append(sep);
         sb.append(cost).append(sep);
         sb.append(latency);
-
         sb.append('\n');
         return sb.toString();
     }
 
     public Technology(String string){
         String []s = string.split(sep);
-        /*setName(s[0]);
-        setRange(s[1]);
-        setTopology(s[2]);
-        setBatteryLife(s[3]);
+        setName(s[0]);
+        setRange(new Det(s[1]));
+        setTopology(new Det(s[2]));
+        setBatteryLife(new Det(s[3]));
         setSecurity(s[4].equals("true"));
-        setSimplicity(s[5]);
-        setCost(s[6]);
-        setLatency(s[7]);*/
+        setSimplicity(new Det(s[5]));
+        setCost(new Det(s[6]));
+        setLatency(new Det(s[7]));
 
     }
 

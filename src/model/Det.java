@@ -14,6 +14,11 @@ public class Det {
         return other.value <= this.value;
     }
 
+    public Det(String s){
+        String []sp = s.split(",");
+        name = sp[0];
+        value = Integer.parseInt(sp[1]);
+    }
     @Override
     public String toString(){
         return name+","+value;

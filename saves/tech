@@ -1,2 +1,4 @@
-wifi---short---mesh---short---true---long---low---medium
-Laura---long---tree---long---true---long---height---medium
+Lora---long,2---star,0---long,2---true---heigh,2---medium,1---heigh,2
+BLE---short,0---mesh,0---short,0---true---medium,1---low,0---heigh,2
+brain---short,0---star,0---short,0---false---medium,1---low,0---low,0
+test---short,0---star,0---short,0---false---medium,1---low,0---low,0
