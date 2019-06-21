@@ -16,10 +16,11 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			AnchorPane root = (AnchorPane)FXMLLoader.load(getClass().getResource("Main.fxml"));
-			Scene scene = new Scene(root,400,400);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			AnchorPane root = (AnchorPane)FXMLLoader.load(getClass().getResource("Technology.fxml"));
+			Scene scene = new Scene(root,1000,600);
+//			scene.getStylesheets().add(getClass().getResource("styles/Style.css").toExternalForm());
 			primaryStage.setScene(scene);
+			primaryStage.setResizable(false);
 			primaryStage.show();
 		} catch(Exception e) {
 			e.printStackTrace();
