@@ -1,7 +1,11 @@
 /* CSS for app */
 
 .btnGreen{
-	-fx-background-color:  #3cbc53;
+ 	-fx-background-color:  #3cbc53;
+ }
+
+.btnRed{
+	-fx-background-color:  #FF0000;
 }
 
 .background{

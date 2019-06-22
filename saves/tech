@@ -1,4 +1,6 @@
-Lora---long,2---star,0---long,2---true---heigh,2---medium,1---heigh,2
-BLE---short,0---mesh,0---short,0---true---medium,1---low,0---heigh,2
-brain---short,0---star,0---short,0---false---medium,1---low,0---low,0
-test---short,0---star,0---short,0---false---medium,1---low,0---low,0
+BLE---short,0---mesh---short,0---true---medium,1---low,0---heigh,2
+Lora---long,2---star---long,2---true---long,2---long,2---long,2
+Dash7---long,2---tree---short,0---true---heigh,2---low,0---heigh,2
+Wifi---short,0---mesh---short,0---true---medium,1---low,0---medium,1
+Zigbee---short,0---mesh,tree,star---long,2---false---heigh,2---medium,1---low,0
+test---long,2---star,mesh---short,0---true---medium,1---medium,1---low,0

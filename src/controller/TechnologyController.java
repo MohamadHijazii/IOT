@@ -12,6 +12,8 @@ import model.Det;
 import model.Details;
 import model.Technology;
 
+import javax.swing.SingleSelectionModel;
+import javax.swing.plaf.basic.BasicTreeUI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -19,30 +21,34 @@ import java.util.ResourceBundle;
 public class TechnologyController implements Initializable {
 
     private ObservableList<Technology> technologies;
+    private ObservableList<String> topos;
 
+    private Technology selected;
     @FXML
     private TextField name;
+    @FXML
+    private TextField search;
 
     @FXML
-    private ChoiceBox<Det> range;
+    private ComboBox<Det> range;
 
     @FXML
-    private ChoiceBox<Det> topology;
+    private ListView<String> topology;
 
     @FXML
-    private ChoiceBox<Det> battery;
+    private ComboBox<Det> battery;
 
     @FXML
     private CheckBox sec;
 
     @FXML
-    private ChoiceBox<Det> simplicity;
+    private ComboBox<Det> simplicity;
 
     @FXML
-    private ChoiceBox<Det> cost;
+    private ComboBox<Det> cost;
 
     @FXML
-    private ChoiceBox<Det> latency;
+    private ComboBox<Det> latency;
 
 
     @FXML
@@ -81,6 +87,11 @@ public class TechnologyController implements Initializable {
 
     @FXML
     private void delete(){
+        try{
+        DB db = DB.instance();
+        db.removeTech(tb.getSelectionModel().selectedItemProperty().get());
+        loadTech();}
+        catch (Exception e){}
 
     }
 
@@ -91,9 +102,17 @@ public class TechnologyController implements Initializable {
             return;
         }
 
+        topos = topology.getSelectionModel().getSelectedItems();
+        String [] top = new String[topos.size()];
+        for (int i = 0; i < topos.size(); i++) {
+            top[i] = topos.get(i);
+
+        }
+
+
         Technology t = new Technology(name.getText(),
                 getSelected(range),
-                getSelected(topology),
+                top,
                 getSelected(battery),
                 sec.isSelected(),
                 getSelected(simplicity),
@@ -104,21 +123,19 @@ public class TechnologyController implements Initializable {
 
     }
 
-    private void setChoiceBox(ChoiceBox<Det> box,ArrayList<Det> ld){
-        for (int i = 0; i < ld.size(); i++) {
-            box.getItems().add(ld.get(i));
-        }
-        box.setValue(ld.get(0));
+    private void setComboBox(ComboBox<Det> box,ArrayList<Det> ld){
+        box.getItems().addAll(ld);
+        //box.setValue(ld.get(0));
     }
 
-    private Det getSelected(ChoiceBox<Det> box){
+    private Det getSelected(ComboBox<Det> box){
         return box.getValue();
     }
 
     private void setColumns(){
         colname.setCellValueFactory(new PropertyValueFactory<>("name"));
         colRange.setCellValueFactory(new PropertyValueFactory<>("range"));
-        colTopology.setCellValueFactory(new PropertyValueFactory<>("topology"));
+        colTopology.setCellValueFactory(new PropertyValueFactory<>("topos"));
         colBattery.setCellValueFactory(new PropertyValueFactory<>("batteryLife"));
         colSec.setCellValueFactory(new PropertyValueFactory<>("security"));
         colSimp.setCellValueFactory(new PropertyValueFactory<>("simplicity"));
@@ -131,19 +148,33 @@ public class TechnologyController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Details d = Details.get_instance();
-        {setChoiceBox(range,d.getRange());
-        setChoiceBox(topology,d.getTopology());
-        setChoiceBox(battery,d.getBtteryLife());
-        setChoiceBox(simplicity,d.getSimplicity());
-        setChoiceBox(cost,d.getCost());
-        setChoiceBox(latency,d.getLatency());}
+        {setComboBox(range,d.getRange());
+        iniTopo();
+        setComboBox(battery,d.getBtteryLife());
+        setComboBox(simplicity,d.getSimplicity());
+        setComboBox(cost,d.getCost());
+        setComboBox(latency,d.getLatency());}
 
         tb.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+
         setColumns();
         loadTech();
 
 
     }
+
+    private void iniTopo(){
+        Details d = Details.get_instance();
+        topology.getItems().addAll(d.getTopology());
+        topology.getItems().remove(0);
+        topology.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+    }
+
+    private boolean matchName(String container,String sub){
+        return  container.contains(sub);
+    }
+
+
 
     private void loadTech() {
         technologies = FXCollections.observableArrayList();

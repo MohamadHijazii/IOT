@@ -1,11 +1,12 @@
 package model;
 
+import javax.swing.*;
 import java.util.ArrayList;
 
 public class Details {
 
     private ArrayList<Det> range;
-    private ArrayList<Det> topology;
+    private String[] topology;
     private ArrayList<Det> btteryLife;
     private ArrayList<Det> simplicity;
     private ArrayList<Det> cost;
@@ -21,11 +22,11 @@ public class Details {
         this.range = range;
     }
 
-    public ArrayList<Det> getTopology() {
+    public String[] getTopology() {
         return topology;
     }
 
-    public void setTopology(ArrayList<Det> topology) {
+    public void setTopology(String[] topology) {
         this.topology = topology;
     }
 
@@ -66,10 +67,7 @@ public class Details {
     private Details(){
         DB db = DB.instance();
         range = new ArrayList<>();
-        range.add(new Det("test",1));
-        range.add(new Det("brain",2));
-        topology = new ArrayList<>();
-        topology.add(new Det("nigga",5));
+        topology = new String[]{};
         btteryLife = new ArrayList<>();
         simplicity = new ArrayList<>();
         cost = new ArrayList<>();

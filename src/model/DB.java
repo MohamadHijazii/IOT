@@ -32,6 +32,10 @@ public class DB {
         }
     }
 
+    public void removeTech(Technology t){
+        technologies.remove(t);
+    }
+
     public void ReadTech(){
 
         technologies = new ArrayList<>();
@@ -58,7 +62,8 @@ public class DB {
         try{
             BufferedReader in = new BufferedReader(new FileReader("saves/details"));
             d.setRange(fromDBFormat(in.readLine()));
-            d.setTopology(fromDBFormat(in.readLine()));
+            String s = in.readLine();
+            d.setTopology(s.split(" "));
             d.setBtteryLife(fromDBFormat(in.readLine()));
             d.setSimplicity(fromDBFormat(in.readLine()));
             d.setCost(fromDBFormat(in.readLine()));
@@ -92,7 +97,11 @@ public class DB {
         try{
             BufferedWriter out = new BufferedWriter(new FileWriter("saves/details"));
             out.write(getDBFormat(d.getRange()));
-            out.write(getDBFormat(d.getTopology()));
+            for (int i=0;i<d.getTopology().length;i++){
+                out.write(d.getTopology()[i]);
+                out.write(" ");
+            }
+            out.write("\n");
             out.write(getDBFormat(d.getBtteryLife()));
             out.write(getDBFormat(d.getSimplicity()));
             out.write(getDBFormat(d.getCost()));

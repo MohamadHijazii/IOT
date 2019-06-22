@@ -11,6 +11,8 @@ public class Det {
     }
 
     public boolean accepted(Det other){
+        if(other == null)
+            return true;
         return other.value <= this.value;
     }
 
