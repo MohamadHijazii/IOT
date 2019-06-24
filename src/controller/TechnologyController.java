@@ -1,29 +1,40 @@
 package controller;
 
+import java.io.File;
+import java.net.URL;
+import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.ResourceBundle;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListView;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.SelectionMode;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
 import model.DB;
 import model.Det;
 import model.Details;
 import model.Technology;
-
-import javax.swing.SingleSelectionModel;
-import javax.swing.plaf.basic.BasicTreeUI;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.ResourceBundle;
+import view.Main;
 
 public class TechnologyController implements Initializable {
 
+    private File image;
     private ObservableList<Technology> technologies;
     private ObservableList<String> topos;
-
-    private Technology selected;
     @FXML
     private TextField name;
     @FXML
@@ -49,6 +60,10 @@ public class TechnologyController implements Initializable {
 
     @FXML
     private ComboBox<Det> latency;
+
+    @FXML
+    private ImageView img;
+
 
 
     @FXML
@@ -96,9 +111,41 @@ public class TechnologyController implements Initializable {
     }
 
     @FXML
+    void browse(ActionEvent event) {
+        FileChooser fc = new FileChooser();
+        FileChooser.ExtensionFilter []filters = new FileChooser.ExtensionFilter[]{
+                new FileChooser.ExtensionFilter("Image","*.png"),
+                new FileChooser.ExtensionFilter("Image","*.jpg"),
+                new FileChooser.ExtensionFilter("Image","*.jpge"),
+                new FileChooser.ExtensionFilter("Image","*.jpeg"),
+        };
+        fc.getExtensionFilters().addAll(filters);
+        image = fc.showOpenDialog(null);
+        img.setImage(new Image(image.toURI().toString()));
+    }
+
+    private void addImage(String name){
+        File dest = new File("img/"+name);
+        try {
+
+            Files.copy(image.toPath(),dest.toPath());
+
+
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     void createTechnology(ActionEvent event) {
         if(Helper.emptyField(name)){
             Helper.error("Pleaze enter the name!");
+            return;
+        }
+        if((topology.getSelectionModel().getSelectedItems().size() == 0) || Helper.comboNull(range) || Helper.comboNull(battery) || Helper.comboNull(simplicity) || Helper.comboNull(cost) || Helper.comboNull(latency))
+        {
+            Helper.error("Pleaze fill all informations!");
             return;
         }
 
@@ -119,10 +166,16 @@ public class TechnologyController implements Initializable {
                 getSelected(cost),
                 getSelected(latency));
         Helper.informe("A new technologt "+t+" is added");
+        addImage(image.getName());
+        t.setImage(image.getAbsolutePath());
         loadTech();
 
     }
 
+    @FXML
+    void back(ActionEvent event) {
+        Main.redirect("Main.fxml",event);
+    }
     private void setComboBox(ComboBox<Det> box,ArrayList<Det> ld){
         box.getItems().addAll(ld);
         //box.setValue(ld.get(0));
@@ -170,9 +223,6 @@ public class TechnologyController implements Initializable {
         topology.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
 
-    private boolean matchName(String container,String sub){
-        return  container.contains(sub);
-    }
 
 
 

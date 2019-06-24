@@ -1,6 +1,7 @@
 package controller;
 
 import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 
 public class Helper {
@@ -19,5 +20,9 @@ public class Helper {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText(context);
         alert.show();
+    }
+
+    public static  <T>boolean comboNull(ComboBox<T> box){
+        return box.getValue() == null;
     }
 }

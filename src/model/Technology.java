@@ -12,8 +12,27 @@ public class Technology {
     Det simplicity;
     Det cost;
     Det latency;
-    private String topos;
+    String image;
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    private String topos;
+    public int accuracy;
+
+    public int getAccuracy() {
+        return accuracy;
+    }
+
+
+    public void setAccuracy(int a){
+        this.accuracy = a;
+    }
     public String getTopos() {
         return topos;
     }
@@ -116,17 +135,14 @@ public class Technology {
     }
 
 
-
-    public boolean accept(Technology t){
-        boolean ret = true;
-        ret &= this.range.accepted(t.range);
-        ret &= this.batteryLife.accepted(t.batteryLife);
-        ret &= this.simplicity.accepted(t.simplicity);
-        ret &= this.cost.accepted(t.cost);
-        ret &= this.latency.accepted(t.latency);
-        ret &= (!t.security || (t.security&&this.security));
-        ret &= t.topology.equals(this.topology);
-        return ret;
+    public void setAccuracy(Technology t){
+        int perc = 100/6;
+        if(t.range != null && this.range.value!= t.range.value) accuracy -= perc;
+        if(t.batteryLife!= null && this.batteryLife.value != t.batteryLife.value) accuracy -= perc;
+        if(this.security != t.security) accuracy -= perc;
+        if(t.simplicity != null && this.simplicity.value != t.simplicity.value) accuracy -= perc;
+        if(t.cost!= null && this.cost.value != t.cost.value) accuracy -= perc;
+        if(t.latency!=null && this.latency.value != t.latency.value) accuracy -= perc;
     }
 
     public boolean acceptV2(Technology t){
@@ -175,7 +191,8 @@ public class Technology {
         sb.append(security).append(sep);
         sb.append(simplicity).append(sep);
         sb.append(cost).append(sep);
-        sb.append(latency);
+        sb.append(latency).append(sep);
+        sb.append(image);
         sb.append('\n');
         return sb.toString();
     }
@@ -204,6 +221,7 @@ public class Technology {
         setSimplicity(new Det(s[5]));
         setCost(new Det(s[6]));
         setLatency(new Det(s[7]));
+        setImage(s[8]);
         setTopos();
 
     }

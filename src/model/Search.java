@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
+import java.util.function.Predicate;
 
 public class Search {
     private Technology parameters;
@@ -17,10 +18,13 @@ public class Search {
     }
 
     public ObservableList<Technology> filter(){
-        for (Technology t : technologies) {
-            if(parameters.acceptV2(t))
+        technologies.forEach(t -> {
+            if(parameters.acceptV2(t)){
+                t.setAccuracy(100);
+                t.setAccuracy(parameters);
                 result.add(t);
-        }
+            }
+        });
         return result;
     }
 

@@ -6,8 +6,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import model.*;
+import view.Main;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -34,6 +38,9 @@ public class filterController implements Initializable {
 
     @FXML
     private ComboBox<Det> latency;
+
+    @FXML
+    private ImageView img;
 
     @FXML
     private TableView<Technology> tb;
@@ -63,6 +70,9 @@ public class filterController implements Initializable {
     private TableColumn<Technology, String> colLatency;
 
     @FXML
+    private TableColumn<Technology, Integer> acc;
+
+    @FXML
     void delete(ActionEvent event) {
 
     }
@@ -86,8 +96,15 @@ public class filterController implements Initializable {
         ObservableList<Technology> result = s.filter();
         setColumns();
         tb.setItems(result);
+        tb.getSortOrder().add(acc);
+        acc.setSortType(TableColumn.SortType.DESCENDING);
+        tb.refresh();
     }
 
+    @FXML
+    void back(ActionEvent event) {
+        Main.redirect("Main.fxml",event);
+    }
     @FXML
     void reset(ActionEvent event) {
         range.getSelectionModel().clearSelection();
@@ -113,6 +130,12 @@ public class filterController implements Initializable {
         colSimp.setCellValueFactory(new PropertyValueFactory<>("simplicity"));
         colCost.setCellValueFactory(new PropertyValueFactory<>("cost"));
         colLatency.setCellValueFactory(new PropertyValueFactory<>("latency"));
+        acc.setCellValueFactory(new PropertyValueFactory<>("accuracy"));
+
+        tb.getSelectionModel().selectedItemProperty().addListener((obs,old,newItem) ->{
+            File im = new File(newItem.getImage());
+            img.setImage(new Image(im.toURI().toString()));
+        });
     }
 
     @Override
